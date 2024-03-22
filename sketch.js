@@ -1,5 +1,6 @@
 let cnv;
 let img;
+let lasttouch = 0; // for debouncing touch
 
 function setup() {
   cnv = createCanvas(600, 600);
@@ -15,16 +16,29 @@ function draw() {
   image(img, 0, 0);
 }
 
-function mousePressed() {
-  makeImg();
+function touchStarted() {
+  // for Ios
+  // calculate time since last touch
+  const currenttime = millis();
+  const timesincelasttouch = currenttime - lasttouch;
 
-  let src = canvas.toDataURL();
-  let domimg = createImg(src, "rand");
-  domimg.size(600, 600);
-  let mypost = genRndStr(140);
+  if (timesincelasttouch > 500) {
+    makeImg();
 
-  createP(mypost);
+    let src = canvas.toDataURL();
+    let domimg = createImg(src, "rand");
+    domimg.size(600, 600);
+    let mypost = genRndStr(140);
+
+    createP(mypost);
+  }
 }
+
+function mousePressed() {
+  touchStarted();
+  // for firefox computer browsers
+}
+
 function genRndStr(length) {
   const characters = "abcdefghijklmnopqrstuvwxyz         ";
   let randomString = "";
