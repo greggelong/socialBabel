@@ -4,26 +4,19 @@ let lasttouch = 0; // for debouncing touch
 
 function setup() {
   cnv = createCanvas(600, 600);
+  cnv.hide();
   // hide the canvas but draw to it
   // Create a p5.Image object.
   img = createImage(600, 600);
   background(60);
   makeImg();
+  postit();
 }
 
-function draw() {
-  cnv.hide();
-  image(img, 0, 0);
-}
-
-function touchStarted() {
-  // for Ios
-  // calculate time since last touch
-  const currenttime = millis();
-  const timesincelasttouch = currenttime - lasttouch;
-
-  if (timesincelasttouch > 500) {
+function postit() {
+  for (let i = 0; i < 45; i++) {
     makeImg();
+    image(img, 0, 0);
 
     let src = canvas.toDataURL();
     let domimg = createImg(src, "rand");
@@ -32,11 +25,6 @@ function touchStarted() {
 
     createP(mypost);
   }
-}
-
-function mousePressed() {
-  touchStarted();
-  // for firefox computer browsers
 }
 
 function genRndStr(length) {
