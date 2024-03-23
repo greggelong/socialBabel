@@ -9,6 +9,7 @@ function setup() {
   // Create a p5.Image object.
   img = createImage(600, 600);
   background(60);
+  noStroke();
   makeImg();
   postit();
 }
@@ -16,7 +17,8 @@ function setup() {
 function postit() {
   for (let i = 0; i < 45; i++) {
     makeImg();
-    image(img, 0, 0);
+    //image(img, 0, 0);
+    // dont make an off screen image just draw to the canvas
 
     let src = canvas.toDataURL();
     let domimg = createImg(src, "rand");
@@ -41,11 +43,10 @@ function genRndStr(length) {
 
 function makeImg() {
   // Load the image's pixels into memory.
-  img.loadPixels();
 
-  // Create a color gradient.
-  for (let x = 0; x < img.width; x += 1) {
-    for (let y = 0; y < img.height; y += 1) {
+  let sz = 10;
+  for (let x = 0; x < 60; x += 1) {
+    for (let y = 0; y < 60; y += 1) {
       // Calculate the transparency.
       let a = random(255);
 
@@ -70,15 +71,14 @@ function makeImg() {
       //     random(0, 60),
       //   ]);
       let b = random(255);
-      let c = color(b, a);
+      fill(b, a);
 
       // Set the pixel's color.
-      img.set(x, y, c);
+      rect(x * sz, y * sz, sz, sz);
     }
   }
 
   // Update the image's pixels.
-  img.updatePixels();
 
   //let src = canvas.toDataURL();
   //createImg(src);
